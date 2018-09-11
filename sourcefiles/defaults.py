@@ -28,7 +28,7 @@ import os
 #  Commit_Count = How often a commit is made when loading data
 #  Thread_Limit = Number of threads allowed. If None all threads will be used
 
-class default(object):
+class Default:
     #Database Connection Defaults
     package_use      = 'pyodbc'
     driver           = 'Postgresql'
@@ -52,3 +52,28 @@ class default(object):
     #DATA_LOADER
     commit_count     = 1
     thread_limit     = None
+    
+class ArgLists:
+    full_list = {
+        "password":'"-pwd", "--password", help="Supplies password. PASSWORD IS NOT PROTECTED THIS WAY. It is better to set an env_variable or have and external config file"',
+        "package_use":'"-pu", "--package_use", help="Determines whether pyodbc or psycopg2 is used"',
+        "driver":'"-dr", "--driver", help="For pyodbc, the name of the driver to use"',
+        "host":'"-dh","--host", help="The hostname or ip for the database server"',
+        "port":'"-p", "--port", help="The port for the database server"',
+        "database":'"-d", "--database", help="The database name the user is connection to"',
+        "username":'"-u", "--username", help="The database username the user is connecting with"',
+        "prompt_password":'"-pp", "--prompt_password", help="Enables or disables prompting password, even if one is provided", action="store_true"',
+        "ssl_mode":'"-ssl", "--ssl_mode", help="Specifies which SSL mode is used when creating database connection"',
+        "terminator":'"-t", "--terminator", help="Defines a query terminator"',
+        "header":'"-hdr", "--header", help="Enables or disables providing a header on results", action="store_true"',
+        "delimiter":'"-dl", "--delimiter", help="Specifies the delimiter used on outputted data"',
+        "clean_print":'"-cp", "--clean_print", help="Enables or disables cleanprint", action="store_true"',
+        "isolation_level":'"-il", "--isolation_level", help="Sets the isolation level used in the database connection"',
+        "auto_commit":'"-ac", "--auto_commit", help="Enables or disables automatic commiting after queries/transactions", action="store_true"',
+        "commit_count":'"-cc", "--commit_count", help="Sets the number of rows attempted to be loaded before a commit", type=int',
+        "thread_limit":'"-tl", "--thread_limit", help="Sets the number of threads used during a dataload. Default is all", type=int',
+        "file":'"-f", "--file", help="A query file or data file being used"',
+        "error_file":'"-ef", "--error_file", help="The file where errors are stored"',
+        "query":'"-q", "--query", help="A one time query ran"'
+    }
+    

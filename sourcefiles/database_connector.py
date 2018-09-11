@@ -1,5 +1,6 @@
 import sys
 import getpass
+import pyodbc
 
 package_error = '''
 Package listed is not supported.
@@ -22,39 +23,23 @@ def __pyodbc_connection__(conn_dict):
     cmd = ("DRIVER={"+
            str(conn_dict['driver'])+
            "};")
-    if 'host' in conn_dict:
-        cmd = (cmd+
-               "SERVER="+
-               str(conn_dict['host'])+
-               ";")
-    if 'port' in conn_dict:
-        cmd = (cmd+
-               "PORT="+
-               str(conn_dict['port'])+
-               ";")
-    if 'database' in conn_dict:
-        cmd = (cmd+
-               "DATABASE="+
-               str(conn_dict['database'])+
-               ";")
-    if 'username' in conn_dict:
-        cmd = (cmd+
-               "UID="+
-               str(conn_dict['username'])+
-               ";")
+    
     if 'prompt_password' in conn_dict:
         if conn_dict['prompt_password'] == True:
             conn_dict['password'] = getpass.getpass(prompt='Database Password: ')
-    if 'password' in conn_dict:
-        cmd = (cmd+
-               "PWD="+
-               str(conn_dict['password'])+
-               ";")
-    if 'ssl_mode' in conn_dict:
-        cmd = (cmd+
-               "SSLMODE="+
-               str(conn_dict['ssl_mode'])+
-               ";")
+    
+    for val in [['host','SERVER'],
+                ['port','PORT'],
+                ['database','DATABASE'],
+                ['username','UID'],
+                ['password','PWD'],
+                ['ssl_mode','SSLMODE']]:
+        if val[0] in conn_dict:
+            cmd = (cmd+
+                   val[1]+
+                   "="+
+                   str(conn_dict[val[0]])+
+                   ";")
 
     if 'auto_commit' in conn_dict:
         conn = pyodbc.connect(cmd, autocommit=conn_dict['auto_commit'])
